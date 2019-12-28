@@ -1,0 +1,5 @@
+#!/usr/bin/env kscript
+@file:Include("../kmd-lib.kts")
+
+kmd("edit", *args)
+
