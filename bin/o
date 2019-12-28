@@ -1,5 +1,5 @@
 #!/usr/bin/env kscript
-@file:Include("../kmd-lib.kts")
+@file:Include("../kmd/kmd.kt")
 
 kmd("o", *args)
 
