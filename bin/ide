@@ -1,0 +1,5 @@
+#!/usr/bin/env kscript
+@file:Include("../kmd/kmd.kt")
+
+kmd("ide", *args)
+

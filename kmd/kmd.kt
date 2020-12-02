@@ -13,6 +13,7 @@ Usage:
     kmd ( exec    | x  )  <subcmd> [<args>...]
     kmd ( shell   | s  )  <subcmd> [<args>...]
     kmd ( term    | t  )
+    kmd ( ide     | i  )  <file>
     kmd ( edit    | e  )  <file>
     kmd ( openf   | o  )  <file>
     kmd ( lopenf  | lo )  <file>
@@ -31,6 +32,7 @@ Commands:
     exec:              Exec given command in new process (and return immediately).
     shell:             Exec given command in bash shell, wait for it, then print its output.
     term:              Run the default terminal emulator in new process.
+    ide:               Open file in IDE.
     edit:              Run the best text editor (or open a file in existing instance).
     openf:             Open file using best program available for given file type (now it is just:xdg-open)
     lopenf:            Open file specified inside given file using best program available
@@ -105,6 +107,8 @@ fun term() = exec("x-terminal-emulator")
 
 fun isVimRunning(serverName: String) = serverName in shell("vim", "--serverlist").out
 
+fun ide(fileName: String) = shell("idea", "-e", fileName).out.print
+
 /**
  * Run the best text editor (or open a file in existing instance).
  */
@@ -124,7 +128,7 @@ fun edit(
 /**
  * Open file (or url) using best available application. Current implementation just use xdg-open.
  */
-fun openf(fileName: String) = shell("xdg-open", fileName)
+fun openf(fileName: String) = shell("xdg-open", fileName).out.print
 
 fun lopenf(linkName: String, lines: Int = 1) {
     val reader = File(linkName).bufferedReader()
@@ -202,6 +206,7 @@ fun kmd(argsList: List<String>) {
         isCmd("exec", "x") -> exec(subcmd!!, *args)
         isCmd("shell", "s") -> shell(subcmd!!, *args).out.print
         isCmd("term", "t") -> term()
+        isCmd("ide", "i") -> ide(file!!)
         isCmd("edit", "e") -> edit(file!!)
         isCmd("openf", "o") -> openf(file!!)
         isCmd("lopenf", "lo") -> lopenf(file!!)
